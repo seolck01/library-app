@@ -9,7 +9,7 @@
     },
     "miniprogramRoot": "dist/wx/",
     "compileType": "miniprogram",
-    "appid": "touristappid",
+    "appid": "wx41b12d522b6fca6e",
     "projectname": "library-app",
     "condition": {
         "search": {
