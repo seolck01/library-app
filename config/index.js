@@ -29,6 +29,7 @@ var fileExtConfig = {
 var fileExt = fileExtConfig[process.env.PLATFORM]
 
 module.exports = {
+  host: 'http://localhost:5757',
   build: {
     env: require('./prod.env'),
     index: path.resolve(__dirname, `../dist/${fileExt.platform}/index.html`),
