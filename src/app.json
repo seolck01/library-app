@@ -1,5 +1,5 @@
 {
-  "pages": ["pages/index/main", "pages/me/main", "pages/comment/main"],
+  "pages": ["pages/index/main", "pages/comment/main", "pages/me/main"],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#EA5149",
@@ -30,27 +30,6 @@
         "pagePath": "pages/me/main",
         "iconPath": "static/img/me.png",
         "selectedIconPath": "static/img/me-active.png"
-      }
-    ],
-
-    "items": [
-      {
-        "name": "个人中心",
-        "pagePath": "pages/me/main",
-        "icon": "static/img/me.png",
-        "activeIcon": "static/img/me-active.png"
-      },
-      {
-        "name": "评论",
-        "pagePath": "pages/comment/main",
-        "icon": "static/img/todo.png",
-        "activeIcon": "static/img/todo-active.png"
-      },
-      {
-        "name": "首页",
-        "pagePath": "pages/index/main",
-        "icon": "static/img/home.png",
-        "activeIcon": "static/img/book-active.png"
       }
     ],
     "position": "bottom"

@@ -1,20 +1,26 @@
 <template>
   <div>
-    888
+    这个是个人中心
   </div>
+  
 </template>
 
 <script>
 
 export default {
-  components: {
-  },
   data () {
     return {
     }
+  },
+
+  components: {
+  },
+  created () {
+  },
+  methods: {
   }
 }
 </script>
 
-<style>
+<style scoped>
 </style>

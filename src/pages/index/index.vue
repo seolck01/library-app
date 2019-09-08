@@ -1,6 +1,6 @@
 <template>
   <div>
-    7777
+    这个是首页
   </div>
   
 </template>
@@ -15,12 +15,9 @@ export default {
 
   components: {
   },
-
-  methods: {
-  },
-
   created () {
-    // let app = getApp()
+  },
+  methods: {
   }
 }
 </script>
