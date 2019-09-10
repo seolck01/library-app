@@ -1,4 +1,4 @@
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : '/'
+import host from './config'
 
 export default function requeset (url, data) {
   return new Promise((resolve, reject) => {
