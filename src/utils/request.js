@@ -1,15 +1,16 @@
-import host from './config'
+import config from './config.js'
 
-export default function requeset (url, data) {
+export default function requeset (url, mehtods, data) {
   return new Promise((resolve, reject) => {
-    wx.requeset({
+    wx.request({
+      url: config.host + url,
+      mehtods,
       data,
-      url: host + url,
       success: function (res) {
         if (res.data.code === 0) {
-          resolve(res.data)
+          resolve(res.data.data)
         } else {
-          reject(res.data)
+          reject(res.data.data)
         }
       }
     })
