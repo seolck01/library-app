@@ -1,6 +1,23 @@
 <script>
+import config from '@/utils/config'
+import qcloud from 'wafer2-client-sdk'
 export default {
   created () {
+    qcloud.setLoginUrl(config.loginUrl)
+    // qcloud.login({
+    //   success: function (userInfo) {
+    //     console.log(userInfo)
+    //     wx.setStorageSync('userInfo', userInfo)
+    //   },
+    //   fail: function (err) {
+    //     // console.log('登录失败', err)
+    //     wx.showModal({
+    //       title: '这是微信的弹窗',
+    //       content: `${err}`,
+    //       showCancel: false
+    //     })
+    //   }
+    // })
     // 调用API从本地缓存中获取数据
     /*
      * 平台 api 差异的处理方式:  api 方法统一挂载到 mpvue 名称空间, 平台判断通过 mpvuePlatform 特征字符串
