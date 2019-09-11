@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="index">
     <button open-type="getUserInfo" @getUserInfo="getUserInfo" lang="zh_CN">获取用户信息</button>
     <button @click="showUserInfo">查看用户信息</button>
   </div>
@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     showUserInfo () {
-      let res = wx.getStorageInfoSync()
+      let res = wx.getStorageInfoSync('userInfo')
       console.log(res.keys)
     },
     getUserInfo (e) {
@@ -35,12 +35,12 @@ export default {
         qcloud.loginWithCode({
           success: res => {
             console.log(res)
-            wx.setStorageSync('userInfo', `${res.nickName}`)
-            wx.showModal({
-              title: '登陆成功',
-              content: `用户${res.nickName}`,
-              showCancel: false
-            })
+            wx.setStorageSync('userInfo', res)
+            // wx.showModal({
+            //   title: '登陆成功',
+            //   content: `用户${res.nickName}`,
+            //   showCancel: false
+            // })
           },
           fail: err => {
             console.error(err)
@@ -78,5 +78,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.index {
+  background-color: red;
+  button {
+    border: 1px solid red;
+  }
+}
 </style>
