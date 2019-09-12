@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div class="container">
     <button open-type="getUserInfo" @getuserinfo="bindgetuserinfo" lang="zh_CN">登录</button>
-  {{ userInfo.nickName }}
+    <div class="user-info">
+      <img :src="userInfo.avatarUrl" alt="">
+    </div>
   </div>
 
 </template>
@@ -52,6 +54,7 @@ export default {
             this.userInfo.avatarUrl = res.avatarUrl
             this.userInfo.nickName = res.nickName
             this.logged = true
+            console.log(this.userInfo)
             // this.setData({ userInfo: res, logged: true })
             // wx.showSuccess('登录成功')
           },
@@ -67,6 +70,7 @@ export default {
             this.userInfo.avatarUrl = res.avatarUrl
             this.userInfo.nickName = res.nickName
             this.logged = true
+            console.log(this.userInfo)
             // this.setData({ userInfo: res, logged: true })
             wx.showSuccess('登录成功')
           },
