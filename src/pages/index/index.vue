@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <button>登录</button>
+    <button>首页</button>
   </div>
 
 </template>
@@ -24,7 +24,7 @@ export default {
 .index {
   background-color: red;
   button {
-    border: 1px solid red
+    border: 1px solid red;
   }
 }
 </style>

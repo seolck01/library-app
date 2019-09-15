@@ -1,8 +1,11 @@
 <template>
   <div class="container">
-    <button open-type="getUserInfo" @getuserinfo="bindgetuserinfo" lang="zh_CN">登录</button>
+    <button open-type="getUserInfo"
+            @getuserinfo="bindGetUserInfo"
+            @click="getUserInfo1">获取权限</button>
     <div class="user-info">
-      <img :src="userInfo.avatarUrl" alt="">
+      <!-- <img :src="userInfo.avatarUrl"
+           alt=""> -->
     </div>
   </div>
 
@@ -14,71 +17,64 @@ import qcloud from 'wafer2-client-sdk'
 export default {
   data () {
     return {
-      userInfo: {}
     }
   },
   components: {
   },
   mounted () {
+    this.getSetting();
   },
   methods: {
-    getUserInfo (e) {
-      console.log('111', e.mp.detail.userInfo)
+    getSetting () {
+      wx.getSetting({
+        success: function (res) {
+          if (res.authSetting["scope.userInfo"]) {
+            wx.getUserInfo({
+              success: function (res) {
+                console.log(res.userInfo);
+                //用户已经授权过
+                console.log("用户已经授权过");
+              }
+            });
+          } else {
+            console.log("用户还未授权过");
+          }
+        }
+      });
     },
-    // getSetting () {
-    //   wx.getSetting({
-    //     success: function (res) {
-    //       if (res.authSetting['scope.userInfo']) {
-    //         wx.getUserInfo({
-    //           success: function (res) {
-    //             this.doLogin(res)
-    //             // 用户已经授权过
-    //             console.log('用户已经授权过')
-    //             console.log(res.userInfo)
-    //           }
-    //         })
-    //       } else {
-    //         console.log('用户还未授权过')
-    //       }
-    //     }
-    //   })
-    // },
-    bindgetuserinfo: function () {
-      qcloud.setLoginUrl(config.loginUrl)
-      const session = qcloud.Session.get()
-      if (session) {
-        // 第二次登录 或者本地已经有登录态 可使用本函数更新登录态
-        qcloud.loginWithCode({
-          success: res => {
-            console.log(res)
-            this.userInfo.avatarUrl = res.avatarUrl
-            this.userInfo.nickName = res.nickName
-            this.logged = true
-            console.log(this.userInfo)
-            // this.setData({ userInfo: res, logged: true })
-            // wx.showSuccess('登录成功')
-          },
-          fail: err => {
-            console.error(err)
-            // wx.showModel('登录错误', err.message)
-          }
-        })
+    getUserInfo1 () {
+      console.log("click事件首先触发");
+      // 判断小程序的API，回调，参数，组件等是否在当前版本可用。  为false 提醒用户升级微信版本
+      // console.log(wx.canIUse('button.open-type.getUserInfo'))
+      if (wx.canIUse("button.open-type.getUserInfo")) {
+        // 用户版本可用
       } else {
-        // 首次登录
+        console.log("请升级微信版本");
+      }
+    },
+    bindGetUserInfo (e) {
+      // console.log(e.mp.detail.rawData)
+      console.log(config.loginUrl);
+      qcloud.setLoginUrl(config.loginUrl);
+      if (e.mp.detail.rawData) {
+        console.log(e);
+        //用户按了允许授权按钮
+        console.log("用户按了允许授权按钮");
         qcloud.login({
-          success: res => {
-            this.userInfo.avatarUrl = res.avatarUrl
-            this.userInfo.nickName = res.nickName
-            this.logged = true
-            console.log(this.userInfo)
-            // this.setData({ userInfo: res, logged: true })
-            wx.showSuccess('登录成功')
+          //获取code
+          success (res) {
+            if (res.code) {
+              console.log(res.code);
+              // 这里可以把code传给后台，后台用此获取openid及session_key
+            }
           },
-          fail: err => {
-            console.error(err)
-            wx.showModel('登录错误', err.message)
+          fail: function (err) {
+            console.log("登录失败", err);
           }
-        })
+        });
+      } else {
+        //用户按了拒绝按钮
+        console.log("用户按了拒绝按钮");
       }
     }
   }
@@ -86,5 +82,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 </style>
