@@ -9,23 +9,26 @@
            alt="">
       <p>{{ userInfo.nickName }}</p>
     </div>
-    <YearProgress></YearProgress>
-    <button class="btn" @click="scanBook">添加图书</button>
+    <year-progress />
+    <button class="btn"
+            @click="scanBook">添加图书</button>
   </div>
 
 </template>
 
 <script>
+import YearProgress from '@/components/year-progress'
 import config from '@/utils/config'
 import qcloud from 'wafer2-client-sdk'
 export default {
+  components: {
+    YearProgress
+  },
   data () {
     return {
       getUserInfoVisible: true,
       userInfo: {}
     }
-  },
-  components: {
   },
   created () {
     this.getSetting()
@@ -49,6 +52,14 @@ export default {
           } else {
             console.log('用户还未授权过')
           }
+        }
+      })
+    },
+    scanBook () {
+      console.log('添加的了图书')
+      wx.scanCode({
+        success (res) {
+          console.log(res)
         }
       })
     },
