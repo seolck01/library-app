@@ -31,6 +31,21 @@ export default {
 </script>
 
 <style lang="scss">
+// 全局按钮样式
+.btn {
+  color: #fff;
+  background-color: #EA5A49;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  border-radius: 2px;
+  font-size: 16px;
+  line-height: 40px;
+  height: 40px;
+  width: 100%;
+  &:active {
+    background: #FA5A49;
+  }
+}
 .container {
   height: 100%;
   display: flex;
