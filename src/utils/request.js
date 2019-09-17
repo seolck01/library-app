@@ -1,6 +1,6 @@
 import config from './config.js'
 
-export default function requeset (url, mehtods, data) {
+export default function request (url, mehtods, data) {
   return new Promise((resolve, reject) => {
     wx.request({
       url: config.host + url,
@@ -15,4 +15,11 @@ export default function requeset (url, mehtods, data) {
       }
     })
   })
+}
+
+export function post (url, data) {
+  return request(url, 'POST', data)
+}
+export function get (url, data) {
+  return request(url, 'GET', data)
 }

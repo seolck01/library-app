@@ -19,6 +19,8 @@
 <script>
 import YearProgress from '@/components/year-progress'
 import config from '@/utils/config'
+import { post } from '@/utils/request'
+import { showSuccess } from '@/utils/wxCom'
 import qcloud from 'wafer2-client-sdk'
 export default {
   components: {
@@ -37,7 +39,7 @@ export default {
     getSetting () {
       const that = this
       wx.getSetting({
-        success: function (res) {
+        success: (res) => {
           if (res.authSetting['scope.userInfo']) {
             wx.getUserInfo({
               success: function (res) {
@@ -55,11 +57,23 @@ export default {
         }
       })
     },
+    async addBook (isbn) {
+      console.log(isbn)
+      console.log(this.userInfo.openid)
+      const res = await post('/weapp/addbook', {
+        isbn,
+        openid: this.userInfo.openid
+      })
+      if (res.code === 0 && res.data.title) {
+        showSuccess('添加成功', `${res.data.titl}e`)
+      }
+    },
     scanBook () {
-      console.log('添加的了图书')
       wx.scanCode({
-        success (res) {
-          console.log(res)
+        success: (res) => {
+          if (res.result) {
+            this.addBook(res.result)
+          }
         }
       })
     },
