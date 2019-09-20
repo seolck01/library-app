@@ -13,14 +13,13 @@
     <button class="btn"
             @click="scanBook">添加图书</button>
   </div>
-
 </template>
 
 <script>
 import YearProgress from '@/components/year-progress'
 import config from '@/utils/config'
 import { post } from '@/utils/request'
-import { showSuccess } from '@/utils/wxCom'
+import { showModal } from '@/utils/wxCom'
 import qcloud from 'wafer2-client-sdk'
 export default {
   components: {
@@ -29,7 +28,9 @@ export default {
   data () {
     return {
       getUserInfoVisible: true,
-      userInfo: {}
+      userInfo: {
+        avatarUrl: require('_img/unlogin.png')
+      }
     }
   },
   created () {
@@ -41,16 +42,9 @@ export default {
       wx.getSetting({
         success: (res) => {
           if (res.authSetting['scope.userInfo']) {
-            wx.getUserInfo({
-              success: function (res) {
-                // console.log(res.userInfo)
-                that.userInfo = null
-                that.getUserInfoVisible = false
-                that.userInfo = res.userInfo
-                // 用户已经授权过
-                console.log('用户已经授权过')
-              }
-            })
+            that.userInfo = null
+            that.userInfo = wx.getStorageSync('userInfo')
+            // console.log('用户已经授权过')
           } else {
             console.log('用户还未授权过')
           }
@@ -58,16 +52,20 @@ export default {
       })
     },
     async addBook (isbn) {
-      console.log(isbn)
-      console.log(this.userInfo.openid)
-      const res = await post('/weapp/addbook', {
+      post('/addbook', {
         isbn,
-        openid: this.userInfo.openid
+        openid: this.userInfo.openId
+      }).then(res => {
+        showModal('添加成功', `${res.title}`)
+      }).catch(err => {
+        showModal('添加失败', `${err.msg}`)
       })
-      if (res.code === 0 && res.data.title) {
-        showSuccess('添加成功', `${res.data.titl}e`)
-      }
+
+      // if (res.code === 0 && res.data.title) {
+      //   showSuccess('添加成功', `${res.data.titl}e`)
+      // }
     },
+    // 扫描图书
     scanBook () {
       wx.scanCode({
         success: (res) => {
@@ -78,7 +76,7 @@ export default {
       })
     },
     getUserInfo1 () {
-      console.log('click事件首先触发')
+      // console.log('click事件首先触发')
       // 判断小程序的API，回调，参数，组件等是否在当前版本可用。  为false 提醒用户升级微信版本
       // console.log(wx.canIUse('button.open-type.getUserInfo'))
       if (wx.canIUse('button.open-type.getUserInfo')) {
@@ -95,27 +93,27 @@ export default {
       if (e.mp.detail.rawData) {
         // console.log(e);
         // 用户按了允许授权按钮
-        console.log('用户按了允许授权按钮')
+        // console.log('用户按了允许授权按钮')
         qcloud.login({
           // 获取code
           success (res) {
             if (res) {
-              // wx.setStorageSync('userInfo', res)
+              wx.setStorageSync('userInfo', res)
               that.getUserInfoVisible = null
               that.getUserInfoVisible = false
               that.userInfo = null
               that.userInfo = res
-              console.log(res)
               // 这里可以把code传给后台，后台用此获取openid及session_key
             }
           },
           fail: function (err) {
+            showModal('登录失败', '登陆失败，请检查网络或稍后再试')
             console.log('登录失败', err)
           }
         })
       } else {
         // 用户按了拒绝按钮
-        console.log('用户按了拒绝按钮')
+        // console.log('用户按了拒绝按钮')
       }
     }
   }

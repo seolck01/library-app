@@ -1,10 +1,10 @@
 import config from './config.js'
 
-export default function request (url, mehtods, data) {
+export function request (url, method, data) {
   return new Promise((resolve, reject) => {
     wx.request({
       url: config.host + url,
-      mehtods,
+      method,
       data,
       success: function (res) {
         if (res.data.code === 0) {
