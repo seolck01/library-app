@@ -1,19 +1,37 @@
 <template>
   <div class="index">
-    <button>首页</button>
+    <book-bar v-for="item in booklist"
+              :key="item.id"
+              :content="item" />
   </div>
 
 </template>
 
 <script>
+import BookBar from '@/components/book-bar.vue'
+import { get } from '@/utils/request'
 export default {
   data () {
     return {
+      booklist: []
     }
   },
   components: {
+    BookBar
   },
-  created () {
+  mounted () {
+  },
+  async onShow () {
+    const userInfo = wx.getStorageSync('userInfo')
+    if (userInfo) {
+      await get('/booklist', {
+        openid: userInfo.openId
+      }).then((res) => {
+        this.booklist = res
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
   },
   methods: {
   }
@@ -21,10 +39,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.index {
-  background-color: red;
-  button {
-    border: 1px solid red;
-  }
-}
+
 </style>

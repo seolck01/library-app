@@ -34,7 +34,7 @@ export default {
 // 全局按钮样式
 .btn {
   color: #fff;
-  background-color: #EA5A49;
+  background-color: #ea5a49;
   margin-bottom: 10px;
   padding-left: 15px;
   border-radius: 2px;
@@ -43,7 +43,7 @@ export default {
   height: 40px;
   width: 100%;
   &:active {
-    background: #FA5A49;
+    background: #fa5a49;
   }
 }
 .container {
@@ -57,6 +57,7 @@ export default {
 }
 /* this rule will be remove */
 * {
+  box-sizing: border-box;
   transition: width 2s;
   -moz-transition: width 2s;
   -webkit-transition: width 2s;
