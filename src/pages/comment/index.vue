@@ -1,26 +1,29 @@
 <template>
   <div class="counter-warp">
-    <!-- <comment-list></comment-list> -->
+    <user-comment-list v-for="item in userComment"
+                       :key="item.id"
+                       :content="item" />
   </div>
 
 </template>
 
 <script>
 
-import CommentList from '@/components/comment-list'
+import UserCommentList from '@/components/user-comment-list'
 import { post } from '@/utils/request'
 export default {
   data () {
     return {
       // 用户信息
-      userInfo: {}
+      userInfo: {},
+      userComment: []
     }
   },
 
   components: {
-    CommentList
+    UserCommentList
   },
-  mounted () {
+  onShow () {
     const userInfo = wx.getStorageSync('userInfo')
     if (userInfo) {
       this.userInfo = userInfo
@@ -28,10 +31,13 @@ export default {
     }
   },
   methods: {
-    getUserComment () {
-      post('/usercomment', {
+    async getUserComment () {
+      const userComment = await post('/usercomment', {
         openid: this.userInfo.openId
       })
+      if (userComment) {
+        this.userComment = userComment
+      }
     }
   }
 }

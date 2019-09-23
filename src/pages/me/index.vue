@@ -34,21 +34,20 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     this.getSetting()
   },
   methods: {
-    getSetting (state) {
+    getSetting () {
       const that = this
       wx.getSetting({
         success: (res) => {
           if (res.authSetting['scope.userInfo']) {
-            if (state === 1) {
-              that.userInfo = null
-              that.userInfo = wx.getStorageSync('userInfo')
-              that.getUserInfoVisible = false
-              // console.log('用户已经授权过')
-            }
+            that.userInfo = null
+            that.userInfo = wx.getStorageSync('userInfo')
+            console.log(that.userInfo)
+            that.getUserInfoVisible = false
+            // console.log('用户已经授权过')
           } else {
             return false
           }
