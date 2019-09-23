@@ -21,7 +21,8 @@
 export default {
   props: {
     content: {
-      type: Object
+      type: Object,
+      default: () => {}
     }
   },
   computed: {

@@ -53,11 +53,8 @@ export default {
   onReachBottom () {
     this.getMoreList()
   },
-  async onShow () {
-    this.userInfo = wx.getStorageSync('userInfo')
-    if (this.userInfo.openId) {
-      this.getList()
-    }
+  async mounted () {
+    this.getList()
     this.getBanner()
   },
   methods: {
