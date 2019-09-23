@@ -4,7 +4,6 @@
     <comment-list v-for="item in commentList"
                   :key="item.id"
                   :content="item">
-      {{item}}
     </comment-list>
     <div class="comment">
       <textarea v-model="comment"
@@ -64,6 +63,9 @@ export default {
     async addComment () {
       if (!this.comment) {
         return
+      }
+      if (!this.userInfo.openId) {
+        showModal('失败', '请登陆')
       }
       const data = {
         bookid: this.id,

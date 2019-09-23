@@ -1,15 +1,16 @@
 <template>
   <div class="user-center">
-    <button v-if="getUserInfoVisible"
-            open-type="getUserInfo"
-            @getuserinfo="bindGetUserInfo"
-            @click="getUserInfo1">获取用户权限</button>
     <div class="user-info">
       <img :src="userInfo.avatarUrl"
            alt="">
       <p>{{ userInfo.nickName }}</p>
     </div>
     <year-progress />
+    <button v-if="getUserInfoVisible"
+            open-type="getUserInfo"
+            class="btn"
+            @getuserinfo="bindGetUserInfo"
+            @click="getUserInfo1">登陆</button>
     <button class="btn"
             @click="scanBook">添加图书</button>
   </div>
@@ -33,20 +34,23 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     this.getSetting()
   },
   methods: {
-    getSetting () {
+    getSetting (state) {
       const that = this
       wx.getSetting({
         success: (res) => {
           if (res.authSetting['scope.userInfo']) {
-            that.userInfo = null
-            that.userInfo = wx.getStorageSync('userInfo')
-            // console.log('用户已经授权过')
+            if (state === 1) {
+              that.userInfo = null
+              that.userInfo = wx.getStorageSync('userInfo')
+              that.getUserInfoVisible = false
+              // console.log('用户已经授权过')
+            }
           } else {
-            console.log('用户还未授权过')
+            return false
           }
         }
       })
@@ -67,6 +71,10 @@ export default {
     },
     // 扫描图书
     scanBook () {
+      if (!this.userInfo.openId) {
+        showModal('错误', `请登陆`)
+        return
+      }
       wx.scanCode({
         success: (res) => {
           if (res.result) {
@@ -79,10 +87,9 @@ export default {
       // console.log('click事件首先触发')
       // 判断小程序的API，回调，参数，组件等是否在当前版本可用。  为false 提醒用户升级微信版本
       // console.log(wx.canIUse('button.open-type.getUserInfo'))
-      if (wx.canIUse('button.open-type.getUserInfo')) {
-        // 用户版本可用
-      } else {
-        console.log('请升级微信版本')
+      if (!wx.canIUse('button.open-type.getUserInfo')) {
+        // 用户版本不可用
+        showModal('添加失败', `请升级微信版本`)
       }
     },
     bindGetUserInfo (e) {
