@@ -8,7 +8,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#EA5149",
-    "navigationBarTitleText": "芬芳书评",
+    "navigationBarTitleText": "墨书评",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
