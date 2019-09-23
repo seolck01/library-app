@@ -48,6 +48,7 @@ export default {
   // 下拉刷新
   onPullDownRefresh () {
     this.getList()
+    this.getBanner()
   },
   // 上拉滚动
   onReachBottom () {
@@ -69,10 +70,9 @@ export default {
       this.tops = tops.list
     },
     // 获取列表
-    async getList (openid) {
+    async getList () {
       wx.showNavigationBarLoading()
       const res = await get('/booklist', {
-        openid: this.userInfo.openId,
         page: this.page
       })
       if (this.page !== 1) {
