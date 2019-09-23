@@ -1,5 +1,6 @@
 <template>
-  <div class="user-comment-list">
+  <div @click="toDetail(content.id)"
+       class="user-comment-list">
     <div>
       <img mode="aspectFit"
            :src="content.pic">
@@ -17,6 +18,13 @@ export default {
     content: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    async toDetail (id) {
+      wx.navigateTo({
+        url: `/pages/detail/main?id=${id}`
+      })
     }
   }
 }
